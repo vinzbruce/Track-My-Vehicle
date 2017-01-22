@@ -5,12 +5,14 @@ h1 {
 }
 
  body{
-    background: url("Travel.jpg")no-repeat;
-    background-size: 100% 140%;
-    background-attachment: scroll;
+    background-image: url('../app/images/bus-max-device-1.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
     display:block;
     padding:10px !important;
     margin:0;
+    max-width: 100%;
+
     }
 
     footer{
@@ -51,10 +53,16 @@ h1 {
 
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
+      body {
+          background-image: url('../app/images/bus-min-device.jpg');
+      }
       .sidenav {
         padding: 15px;
       }
     }
+
+
+
     .custom-panel
     {
       padding-top: 100px;
@@ -64,8 +72,11 @@ h1 {
     }
 
     .panel{
-        background: rgba(0, 0, 0, 0.14);
-
+        background: rgba(0, 0, 0, 0.50);
+        float: none;
+        margin-left: auto;
+        margin-right: auto;
+        color:white;
       }
 
     .navbar-inverse {
