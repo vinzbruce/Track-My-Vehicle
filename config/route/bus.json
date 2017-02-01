@@ -1,0 +1,27 @@
+[
+  {
+    "bus_id":"100",
+    "driver_name":"Muthu Pandi",
+    "route_id":1
+  },
+  {
+    "bus_id":"101",
+    "driver_name":"Mari",
+    "route_id":2   
+  },
+  {
+    "bus_id":"102",
+    "driver_name":"Vijay",
+    "route_id":3   
+  },
+  {
+    "bus_id":"103",
+    "driver_name":"Raja",
+    "route_id":4   
+  },
+  { 
+    "bus_id":"104",
+    "driver_name":"Panneer",
+    "route_id":5   
+  }
+]

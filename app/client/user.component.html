@@ -1,3 +1,39 @@
-<h2>
-  {{name}}
-</h2>
+<div class="wrapper" >
+  <form #inputMap="ngForm">
+    <div class="form-group">
+      <div class="col-sm-3">
+        <input [(ngModel)]="boardingstop"
+           [typeahead]="stops" [typeaheadOptionField] = "'stop_name'"
+           class="form-control" name="boardingstop" placeholder="Enter your boarding stop">
+      </div>
+      </div>
+      <div class="form-group">
+       <div class="col-sm-3">
+        <input [(ngModel)]="destination" [typeahead]="stops" [typeaheadOptionField] = "'stop_name'"
+           class="form-control"  placeholder="Enter your destination"  name="destination">
+      </div>
+     </div>
+       <div class="form-group">
+       <div class="col-sm-3">
+       <button name="Search" class="btn btn-info custom-panel-button" type="button" (click)="search()">  Search
+         </button>
+      </div>
+     </div>
+  </form>
+</div>
+
+<div class="panel-container" *ngIf=busAvailable>
+   <div  class="panel col-sm-6 ">
+      <div class="row">
+        <div class="panel-heading center"><h2><small>Available Bus</small></h2>
+         </div>
+      </div>
+      <div class="panel-body">
+        <ul class="panel-layout">
+          <li *ngFor="let bus of buses" [class.selected]="bus === selectedBus" (click)="openMap()">
+            <span class="badge">{{bus.duration}}</span><span style="margin-left:3em">{{bus.stopname}}</span>
+          </li>
+        </ul>
+     </div>
+  </div>
+</div>

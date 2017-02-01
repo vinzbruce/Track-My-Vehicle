@@ -1,3 +1,36 @@
-<h2>
-  {{name}}
-</h2>
+<div class="wrapper" >
+  <h2>
+    Welcome Driver, <small> you can start journey after selecting your bus route</small>
+  </h2>
+
+  <form #inputMap="ngForm">
+    <div class="form-group">
+      <div class="col-sm-3">
+        <input [(ngModel)]="bus_id"
+           [typeahead]="routes" [typeaheadOptionField] = "'bus_id'"
+           class="form-control" name="bus_id" placeholder="Enter your bus id">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-3" *ngIf=!startFlag>
+        <button type="button" class="btn btn-info custom-panel-button" (click)="registerBus()">
+          Start Journey
+        </button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<div class="wrapper" *ngIf=startFlag>
+<h1>
+   Your journey is started!. you can close the journey by clicking End Journey
+</h1>>
+   <div class="form-group">
+       <div class="col-sm-3" >
+        <button type="button" class="btn btn-info custom-panel-button" (click)="unregisterBus()">
+          End Journey
+        </button>
+      </div>
+   </div>
+</div>

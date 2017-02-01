@@ -1,0 +1,69 @@
+.typeahead-typeahead{
+      width: 250px;
+      padding: 8px;
+      border-radius: 5px;
+ }
+
+.typeahead-input{
+  width: 250px;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.typeahead{
+  width: 250px;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.wrapper{
+  padding-top:30px;
+}
+
+.panel-layout {
+  margin: 0 0 2em 0;
+  list-style-type: none;
+  padding: 0;
+
+}
+
+.panel-layout li {
+  cursor: pointer;
+   color: black;
+  position: relative;
+  left: 0;
+  background-color: #EEE;
+  margin: 1em;
+  padding: 0;
+  height: 3em;
+  border-radius: 6px;
+}
+.panel-layout li:hover {
+  color: #607D8B;
+  background-color: black;
+  left: .1em;
+}
+.panel-layout li.selected:hover {
+  background-color: #BBD8DC !important;
+  color: white;
+}
+.panel-layout .text {
+  position: relative;
+  margin-left:10em;
+  top: -10px;
+}
+.panel-layout .badge {
+  display: inline-block;
+  font-size: small;
+  color: white;
+  padding: 1em 1em 1em 1em;
+  background-color: #1f9e89;
+  position: relative;
+  margin-right:.1em;
+  height: 3.3em;
+  top: -1px;
+  border-radius: 6px 0 0 6px;
+}
+.sebm-google-map-container {
+  height: 350px;
+}

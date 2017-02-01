@@ -1,0 +1,24 @@
+[
+  {
+    "route_id":"1",
+    "bus_stops": ["Thiruvanmiyur","Marudeeshwar Temple","RTO","Kottivakkam","Palavakkam","Neelangarai"]   
+  },
+  {    
+    "route_id":"2",
+    "bus_stops": ["Velachery","Baby Nagar","TCS Velachery","Taramani Railway Station"]   
+  },
+ {    
+    "route_id":"3",
+    "bus_stops": ["Madhya Kailash","SRP Tools","Kandanchavadi","Perungudi","Thuraipakkam","DB Jain College",
+     "PTC","Karapakkam","Sholinganallur"]   
+  },
+  {    
+    "route_id":"4",
+    "bus_stops": ["CMBT","MMDA","JNR","Ashok Pillar","Udhayam Theatre","Ekkaduthangal","Guindy"]  
+  },
+  {
+  "route_id":"5",
+    "bus_stops": ["Sanatorium","Madras Christian College","Selayur","Rajakilpakam ",
+     "Kamarajapuram","Sembakkam","Gowrivakkam","Santhoshapuram","Medavakkam"]
+  }
+]
