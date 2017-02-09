@@ -1,5 +1,5 @@
 {
-  "name": "angular-quickstart",
+  "name": "Track Me",
   "version": "1.0.0",
   "description": "QuickStart package.json from the documentation, supplemented with testing support",
   "scripts": {
@@ -16,6 +16,9 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
+  "engines": {
+    "node": "6.9.1"
+  },
   "dependencies": {
     "@angular/common": "~2.4.0",
     "@angular/compiler": "~2.4.0",
@@ -43,7 +46,8 @@
     "socket.io": "~1.4.5",
     "socket.io-client": "~1.4.5",
     "systemjs": "0.19.40",
-    "zone.js": "^0.7.4"
+    "zone.js": "^0.7.4",
+	"typings": "2.1.0"
   },
   "devDependencies": {
     "concurrently": "^3.1.0",
@@ -62,8 +66,7 @@
     "protractor": "~4.0.14",
     "rimraf": "^2.5.4",
     "@types/node": "^6.0.46",
-    "@types/jasmine": "^2.5.36",
-    "typings": "2.1.0"
+    "@types/jasmine": "^2.5.36"
   },
   "repository": {}
 }
