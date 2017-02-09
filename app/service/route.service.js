@@ -1,4 +1,4 @@
-System.register(['@angular/core', '@angular/http', 'rxjs/Rx', 'rxjs/add/operator/map', 'rxjs/add/operator/catch'], function(exports_1, context_1) {
+System.register(['@angular/core', '@angular/http', 'rxjs/Observable', 'rxjs/add/operator/map', 'rxjs/add/operator/catch'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Rx', 'rxjs/add/operator
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, Rx_1;
+    var core_1, http_1, Observable_1;
     var RouteService;
     return {
         setters:[
@@ -20,8 +20,8 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Rx', 'rxjs/add/operator
             function (http_1_1) {
                 http_1 = http_1_1;
             },
-            function (Rx_1_1) {
-                Rx_1 = Rx_1_1;
+            function (Observable_1_1) {
+                Observable_1 = Observable_1_1;
             },
             function (_1) {},
             function (_2) {}],
@@ -32,16 +32,39 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Rx', 'rxjs/add/operator
                     this.routeUrl = "api/service/route";
                     this.gmapUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=&destination=&key=YOUR_API_KEY";
                     this.distanceurl = "api/service/distance";
+                    this.busAvailabilityUrl = "api/service/bus-availability";
                 }
+                /*getRoute():any{
+                  return "";
+                }
+                
+                 getBusDetails(origin:any, destination:any):any{
+                   return "";
+                 }*/
                 RouteService.prototype.getRoute = function () {
                     return this.http.get(this.routeUrl)
                         .map(function (res) { console.log(res.json()); return res.json(); })
-                        .catch(function (error) { console.log(error); return Rx_1.Observable.throw(error); });
+                        .catch(function (error) { console.log(error); return Observable_1.Observable.throw(error); });
+                };
+                RouteService.prototype.getAvailableBus = function (boardingstop) {
+                    var params = new http_1.URLSearchParams();
+                    params.set("boardingstop", boardingstop);
+                    return this.http.get(this.busAvailabilityUrl, { search: params })
+                        .map(function (res) { return JSON.parse(res._body); })
+                        .catch(this.handleError);
                 };
                 RouteService.prototype.getBusDetails = function (origin, destination) {
                     var params = new http_1.URLSearchParams();
                     params.set('origins', origin);
                     params.set('destinations', destination);
+                    return this.http.get(this.distanceurl, { search: params })
+                        .map(function (res) { return res._body; })
+                        .catch(this.handleError);
+                };
+                RouteService.prototype.calculateDistance = function (origin, destination) {
+                    var params = new http_1.URLSearchParams();
+                    params.set('origins', origin);
+                    params.set('destinations', destination.getlatlng());
                     return this.http.get(this.distanceurl, { search: params })
                         .map(function (res) { return res._body; })
                         .catch(this.handleError);
@@ -57,7 +80,7 @@ System.register(['@angular/core', '@angular/http', 'rxjs/Rx', 'rxjs/add/operator
                         errMsg = error.message ? error.message : error.toString();
                     }
                     console.error(errMsg);
-                    return Rx_1.Observable.throw(errMsg);
+                    return Observable_1.Observable.throw(errMsg);
                 };
                 RouteService = __decorate([
                     core_1.Injectable(), 

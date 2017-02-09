@@ -1,7 +1,5 @@
 <div class="wrapper" >
-  <h2>
-    Welcome Driver, <small> you can start journey after selecting your bus route</small>
-  </h2>
+  <h2> <small> Start your journey by selecting the bus route</small></h2>
 
   <form #inputMap="ngForm">
     <div class="form-group">
@@ -18,19 +16,18 @@
         </button>
       </div>
     </div>
-
+   
   </form>
 </div>
 
-<div class="wrapper" *ngIf=startFlag>
-<h1>
-   Your journey is started!. you can close the journey by clicking End Journey
-</h1>>
-   <div class="form-group">
-       <div class="col-sm-3" >
+
+<div class="panel-container" *ngIf=startFlag>
+   <div  class="panel col-sm-6 ">
+      <div class="panel-body text-center">
+       Your journey is started!. you can close the journey by clicking End Journey
         <button type="button" class="btn btn-info custom-panel-button" (click)="unregisterBus()">
           End Journey
         </button>
-      </div>
-   </div>
+     </div>
+  </div>
 </div>

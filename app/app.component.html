@@ -6,17 +6,17 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-globe"></span> Know Your Bus </a>
+        <a class="navbar-brand" href="#"> Track Me </a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" (click)="navigate('/home')"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-        <li><a  href="#" (click)="navigate('/contactus')"><span class="glyphicon glyphicon-earphone"></span>Contact Us</a></li>
-        <li><a href="#" (click)="navigate('/signup')"><span class="glyphicon glyphicon-pencil"></span> Sign-up</a></li>
-        <li><a  (click)=authService.login() *ngIf="!authService.loggedIn()" >
-          <span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-         <li><a  (click)=authService.logout() *ngIf="authService.loggedIn()" >
-          <span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        <li><a href="#" (click)="navigate('/home')" data-toggle="collapse" data-target="#myNavbar"> Home</a></li>
+        <li><a  href="#" (click)="navigate('/contactus')" data-toggle="collapse" data-target="#myNavbar">Contact Us</a></li>
+
+        <li><a  (click)=authService.login() *ngIf="!authService.loggedIn()" data-toggle="collapse" data-target="#myNavbar">
+          Login</a></li>
+         <li><a  (click)=authService.logout() *ngIf="authService.loggedIn()" data-toggle="collapse" data-target="#myNavbar">
+          Logout</a></li>
       </ul>
     </div>
   </div>

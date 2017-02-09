@@ -1,9 +1,17 @@
-<h2>
-  Map View
-</h2>
 
 <div class="wrapper" >
-  <sebm-google-map [latitude]="lat" [longitude]="lng">
+  <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="14">
   <sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
   </sebm-google-map>
+</div>
+<br/>
+<div class="row text-center">
+  <form>
+    <div class="form-group">
+      <button name="back" class="btn btn-info custom-panel-button" (click)="reset()">
+        Reset
+      </button>
+    </div>
+
+  </form>
 </div>

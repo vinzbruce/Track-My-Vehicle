@@ -24,24 +24,25 @@ System.register(['@angular/core', '@angular/router'], function(exports_1, contex
             template = './app/client/mapview.component.html';
             style = './app/client/user-style.css';
             MapViewComponent = (function () {
-                function MapViewComponent(route) {
+                function MapViewComponent(route, router) {
                     this.route = route;
+                    this.router = router;
                     this.lat = 12.987651;
                     this.lng = 80.256800;
                     this.bus_id = "";
+                    this.stop_name = "";
                     this.socket = null;
                     this.host = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port;
                     this.socket = io(this.host);
                     this.socket.on("availableBus", function (availableBuses) {
-                        // console.log(res);
-                        /* for(let bus of availableBuses)
-                           {
-                             if(this.bus_id == bus.bus_id)
-                               {
-                                 this.lat = bus.latitude;
-                                 this.lng = bus.longitude;
-                               }
-                           }*/
+                        console.log(availableBuses);
+                        for (var _i = 0, availableBuses_1 = availableBuses; _i < availableBuses_1.length; _i++) {
+                            var bus = availableBuses_1[_i];
+                            if (this.bus_id == bus.bus_id) {
+                                this.lat = bus.latitude;
+                                this.lng = bus.longitude;
+                            }
+                        }
                     });
                 }
                 MapViewComponent.prototype.ngOnInit = function () {
@@ -50,14 +51,19 @@ System.register(['@angular/core', '@angular/router'], function(exports_1, contex
                         _this.lat = +params['lat'];
                         _this.lng = +params['lng'];
                         _this.bus_id = params['bus_id;'];
+                        _this.stop_name = params['stop'];
+                        _this.socket.emit("registerstop", _this.stop_name);
                     });
+                };
+                MapViewComponent.prototype.reset = function () {
+                    this.router.navigate(['/user']);
                 };
                 MapViewComponent = __decorate([
                     core_1.Component({
                         templateUrl: template,
                         styleUrls: [style]
                     }), 
-                    __metadata('design:paramtypes', [router_1.ActivatedRoute])
+                    __metadata('design:paramtypes', [router_1.ActivatedRoute, router_1.Router])
                 ], MapViewComponent);
                 return MapViewComponent;
             }());

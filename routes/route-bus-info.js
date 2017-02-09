@@ -11,8 +11,8 @@ module.exports =
   //router.post("/enable", (req,res) =>
     getBusDetails : function (res)
     {
-      if(!this.isBusavailable(res.bus_id))
-      {        
+      if(!this.isBusavailable(res))
+      {
       for(var i = 0;i<this.bus.length;i++)
         {
           if(res.bus_id == this.bus[i].bus_id)
@@ -36,15 +36,11 @@ module.exports =
           }
         }
       }
-      console.log("availableBus:");
-      console.log(this.availableBus)  ;
   },
   // user service to request the list of buses to be displayed in the map.
   //router.post("/requestBus", (req,res) =>
   getListOfBus : function (bus_stop)
   {
-    console.log(this.availableBus);
-    console.log(bus_stop);
     var requested_bus = [];
     for (var count = 0; count<this.availableBus.length;count++)
     {
@@ -57,18 +53,19 @@ module.exports =
         }
       }
     }
-    console.log("requested_bus");
-    console.log(requested_bus);
+   console.log("sokcet emiting for bus_Stop "+ bus_stop + " and list of bus: "+ requested_bus.length);
   return requested_bus;
 },
 
   // latitude & longitude of the driver will over-ride by the above loop and if it over-rides the below logic will execute
-  isBusavailable : function (busId)
+  isBusavailable : function (bus)
   {
     for (var count = 0; count<this.availableBus.length;count++)
     {
-      if(busId == this.availableBus[count].bus_id)
+      if(bus.bus_id == this.availableBus[count].bus_id)
       {
+        this.availableBus[count].latitude = bus.latitude;
+        this.availableBus[count].longitude = bus.longitude;
         return true;
       }
     }
@@ -95,5 +92,23 @@ module.exports =
       }
     }
     return false;
+  },
+  deleteBus:function(bus_id){
+    var slice = -1;
+
+    console.log("Before removing bus"+ this.availableBus.length);
+
+    for (var count = 0; count<this.availableBus.length;count++)
+    {
+      if(bus_id == this.availableBus[count].bus_id)
+      {
+        slice = count;
+        break;
+      }
+    }
+    this.availableBus.slice(slice);
+     console.log("After removing bus"+ this.availableBus.length);
   }
+
+
 }

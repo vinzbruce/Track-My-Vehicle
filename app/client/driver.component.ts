@@ -14,7 +14,8 @@ export class DriverComponent {
  bus_id:string = "";
  startFlag:boolean = null;
  routes:any[]=[{bus_id:"100", route_id:"1"},
-               {bus_id:"101", route_id:"2"}];
+               {bus_id:"101", route_id:"2"},
+               {bus_id:"102", route_id:"3"}];
   options:any = {};
 
  constructor(private geoservice:GeolocationService){
@@ -31,7 +32,9 @@ registerBus():void{
 }
 
 unregisterBus():void{
+  this.options = {bus_id:this.bus_id};
   this.startFlag = false;
+  this.geoservice.disconnectService( this.options);
 }
 
 }

@@ -29,7 +29,8 @@ System.register(['@angular/core', '../service/geolocation.service'], function(ex
                     this.bus_id = "";
                     this.startFlag = null;
                     this.routes = [{ bus_id: "100", route_id: "1" },
-                        { bus_id: "101", route_id: "2" }];
+                        { bus_id: "101", route_id: "2" },
+                        { bus_id: "102", route_id: "3" }];
                     this.options = {};
                     this.startFlag = false;
                 }
@@ -39,7 +40,9 @@ System.register(['@angular/core', '../service/geolocation.service'], function(ex
                     this.startFlag = true;
                 };
                 DriverComponent.prototype.unregisterBus = function () {
+                    this.options = { bus_id: this.bus_id };
                     this.startFlag = false;
+                    this.geoservice.disconnectService(this.options);
                 };
                 DriverComponent = __decorate([
                     core_1.Component({

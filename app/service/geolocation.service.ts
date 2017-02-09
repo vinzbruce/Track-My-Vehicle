@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
+
 
 const GEOLOCATION_ERRORS = {
 	'errors.location.unsupportedBrowser': 'Browser does not support location services',
@@ -10,23 +10,22 @@ const GEOLOCATION_ERRORS = {
 
 @Injectable()
 export class GeolocationService {
-	
+
 socket:any = null;
 busInfo:any = null;
  host = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port;
-  
+
   public getLocation(opts:any): void {
+		this.socket = io(this.host);
 
 		if (window.navigator && window.navigator.geolocation) {
 				window.navigator.geolocation.watchPosition(
 					(position) => {
 						console.log(position);
-						this.socket = io(this.host);  
-		
+
 						this.busInfo = {bus_id:opts.bus_id, longitude:position.coords.longitude, latitude:position.coords.latitude};
-   
+
   				  this.socket.emit("registerbus", this.busInfo);
-						
 					},
 					(error) => {
 						switch (error.code) {
@@ -47,6 +46,11 @@ busInfo:any = null;
 				console.error(GEOLOCATION_ERRORS['errors.location.unsupportedBrowser']);
 			}
 
+		}
+
+		public disconnectService(opts:any):void{
+			this.socket = io(this.host);
+			this.socket.emit("un-registerbus", opts.bus_id);
 		}
 
 }

@@ -10,8 +10,8 @@ export class LatLng
     this.lng = lng;
   }
 
-  getlatlng(){
+  getlatlng():string{
     return this.lat+","+this.lng;
   }
-    
+
  }

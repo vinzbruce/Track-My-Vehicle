@@ -30,13 +30,17 @@ System.register(['@angular/core', '@angular/router', './auth.service'], function
                     this.router = router;
                 }
                 AuthGuard.prototype.canActivate = function () {
-                    // If user is not logged in we'll send them to the homepage    
+                    // If user is not logged in we'll send them to the homepage
+                    return this.checkLogin();
+                };
+                AuthGuard.prototype.canLoad = function (route) {
+                    return this.checkLogin();
+                };
+                AuthGuard.prototype.checkLogin = function () {
                     if (!this.auth.loggedIn()) {
-                        console.log("auth service failed");
                         this.router.navigate(['/home']);
                         return false;
                     }
-                    console.log("auth service passed");
                     return true;
                 };
                 AuthGuard = __decorate([

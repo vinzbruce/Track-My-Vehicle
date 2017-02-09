@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {RouteService} from '../service/route.service';
 import {LatLng} from '../service/latlng';
-import {BusDuration} from '../service/bus-duration';
+import {BusInfo} from '../service/businfo';
+import {BusPosition} from '../service/bus-position';
 import {Router, ActivatedRoute} from '@angular/router';
 
 
@@ -16,63 +17,148 @@ var style = './app/client/user-style.css';
 
 export class UserComponent{
 
+
+
  name:string = 'Its user component';
  socket:any = null;
  host = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port;
 
 public boardingstop:string = "";
 public destination:string = "";
-public stops:string[] =[];
+public stops:any[] =[];
+public destinations = {stop_name:"Siruseri", lat:12.831225, lng:80.219626}
 public busAvailable:boolean=false;
-public buses:BusDuration[] = [];
-public selectedBus:any ="";
+public buses:BusPosition[] = [];
+public selectedBus:BusPosition =null;
+public showNoBusMsg:boolean = false;
 
-  lat: number = 0;
-  lng: number = 0;
 
  constructor(private nroute:RouteService, private router:Router,private route:ActivatedRoute){
-    this.socket = io(this.host); 
+    this.socket = io(this.host);
     this.nroute.getRoute()
         .subscribe( (res:any) => this.stops = res.stops);
+
  }
 
 search():void{
-  this.socket.emit("registerstop", this.boardingstop);
 
-  let  destination:LatLng = new LatLng(12.964851,80.256690);
-  let origin:LatLng = new LatLng(12.987651,80.256800);
+  //this.socket.emit("registerstop", this.boardingstop);
 
-  this.nroute.getBusDetails(origin.getlatlng(),destination.getlatlng())
-        .subscribe((res:any) => {console.log(res); this.extractValues(JSON.parse(res));});
+  this.nroute.getAvailableBus(this.boardingstop)
+      .subscribe( (availableBuses:any) => {
+     console.log("availableBuses");
+    console.log(availableBuses);
+   for( let availableBus of availableBuses){
+          let bus:BusInfo = new BusInfo();
+          bus.bus_id = availableBus.bus_id;
+          bus.latlng = new LatLng(availableBus.latitude, availableBus.longitude);
+          this.identifyBusCrossedBoardingStop(bus);
+      }
 
-  this.busAvailable = true;
+      if(availableBuses.length == 0)
+      {
+        this.showNoBusMsg = true;
+      }
+
+  });
 
 }
 
-extractValues(res:any):void{
+identifyBusCrossedBoardingStop(bus:BusInfo):void {
+
+  let origins:string = bus.latlng.getlatlng()+"|"+this.getselectedStopPostition();
+  let destination:LatLng = new LatLng(this.destinations.lat, this.destinations.lng) ;
+
+   this.nroute.calculateDistance(origins,destination)
+        .subscribe((res:any) => {
+
+     console.log("calculateDistance");
+     console.log(res);
+
+       if(this.calculateDistance(JSON.parse(res)))
+         {
+           this.nroute.getBusDetails(bus.latlng.getlatlng(), this.getselectedStopPostition())
+          .subscribe((res:any) => { this.extractValues(JSON.parse(res), bus);});
+
+           console.log("true");
+         }
+       else
+         {
+            if(this.busAvailable){
+              this.showNoBusMsg = false;
+            }
+           else{
+              this.showNoBusMsg = true;
+           }
+         }
+
+      });
+}
+
+calculateDistance(res:any):boolean{
+
+       let bus_dis:any = res[0].elements[0].distance.text.replace("km","");
+       let stop_dis:any =  res[1].elements[0].distance.text.replace("km", "");
+
+        console.log(bus_dis.trim() + ", "+stop_dis.trim());
+        console.log(+bus_dis.trim()>+stop_dis.trim());
+
+        if(+bus_dis.trim()>+stop_dis.trim()){
+          return true;
+        }
+  return false;
+}
+
+extractValues(res:any, bus:BusInfo):void {
 
    for(let places of res){
+
       for(let element of places.elements)
         {
-          let duration:BusDuration = new BusDuration( element.duration.text, this.boardingstop)
-              this.buses.push(duration);
-        }
+          let duration:BusPosition = new BusPosition( element.duration.text, this.boardingstop);
+              duration.bus_id = bus.bus_id;
+              duration.latlng =  bus.latlng;
 
+            if(!this.duplicateBus(bus.bus_id))
+              {
+                this.buses.push(duration);
+              }
+          this.busAvailable = true;
+
+        }
     }
 
 }
 
-openMap():void{
+duplicateBus(bus_id:any):boolean{
 
- this.router.navigate(['/mapview',{lat:12.987651, lng:80.256800, bus_id:"100" }], {relativeTo:this.route});
-  //this.router.navigate(['/mapview'],{ relativeTo: this.route });
+  for(let bus of this.buses){
+      if(bus_id == bus.bus_id)
+        {
+          return true;
+        }
+    }
+  return false;
 }
 
-typeaheadOnSelect(e:any):void {
-  console.log(e);
-
+openMap(selectedBus:BusPosition):void{
+  console.log(selectedBus);
+ this.router.navigate(['/mapview',{lat:selectedBus.latlng.lat, lng:selectedBus.latlng.lng,
+                                   bus_id:selectedBus.bus_id, stop:this.boardingstop}], {relativeTo:this.route});
 }
 
+getselectedStopPostition():string{
+
+   for(let stop of this.stops)
+        {
+          if(this.boardingstop == stop.stop_name){
+            let  stopLatLng:LatLng = new LatLng(stop.latitude,stop.longitude);
+              return stopLatLng.getlatlng();
+          }
+        }
+  return "";
+
+}
 
 
 }

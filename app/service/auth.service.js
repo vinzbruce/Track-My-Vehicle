@@ -1,4 +1,4 @@
-System.register(['@angular/core', 'angular2-jwt', '@angular/router', 'rxjs/add/operator/take'], function(exports_1, context_1) {
+System.register(['@angular/core', 'angular2-jwt', '@angular/router'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -22,8 +22,7 @@ System.register(['@angular/core', 'angular2-jwt', '@angular/router', 'rxjs/add/o
             },
             function (router_1_1) {
                 router_1 = router_1_1;
-            },
-            function (_1) {}],
+            }],
         execute: function() {
             AuthService = (function () {
                 function AuthService(router) {

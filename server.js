@@ -22,18 +22,20 @@ socketio.on("connection", function(socket){
   // driver connection socket to retrieve the driver location details
     socket.on("registerbus", function(resp)
     {
-      console.log(resp);
+      console.log("registerbus socket "+resp.bus_id);
       routeBusInfo.getBusDetails(resp);
 
-      for(var i=0; i<routeBusInfo.availableBus.length; i++)
-        {
-           for(var stopcount = 0; stopcount<routeBusInfo.availableBus[i].bus_stops.length; stopcount++)
-           {
-          socketio.sockets.in(routeBusInfo.availableBus[i].bus_stops[stopcount])
-           .emit("availableBus", routeBusInfo.getListOfBus(routeBusInfo.availableBus[i].bus_stops[stopcount]));
-           }
-        }
+       for(var j=0; j<routeBusInfo.bus_stops.length;j++)
+         {
+           socketio.sockets.in(routeBusInfo.bus_stops[j])
+           .emit("availableBus", routeBusInfo.getListOfBus(routeBusInfo.bus_stops[j]));
 
+         }
+
+    });
+
+    socket.on("un-registerbus", function(bus_id){
+      routeBusInfo.deleteBus(bus_id);
     });
 
   // user socket to retrieve the list of available buses to be displayed in the map
@@ -52,6 +54,8 @@ socketio.on("connection", function(socket){
 
 });
 
+
+
 /* static libraries has to be loaded in express */
 app.use('/app/',express.static(__dirname+ '/app/'));
 app.use('/node_modules/@angular', express.static(__dirname+ '/node_modules/@angular'));
@@ -60,6 +64,15 @@ app.use('/node_modules/angular-in-memory-web-api', express.static(__dirname+ '/n
 app.use('/node', express.static(__dirname+'/node_modules/'));
 app.use('/node_modules/', express.static(__dirname+'/node_modules/'));
 app.use('/scripts', express.static(__dirname+'/config/'));
+
+
+app.get("/api/service/bus-availability", function(req, res){
+  
+  var stop_name = req.param('boardingstop');
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(routeBusInfo.getListOfBus(stop_name)));
+
+});
 
 /* all routing logic is available in app-route component */
 app.use('/',routes);

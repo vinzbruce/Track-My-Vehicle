@@ -32,10 +32,10 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                 }
                 GeolocationService.prototype.getLocation = function (opts) {
                     var _this = this;
+                    this.socket = io(this.host);
                     if (window.navigator && window.navigator.geolocation) {
                         window.navigator.geolocation.watchPosition(function (position) {
                             console.log(position);
-                            _this.socket = io(_this.host);
                             _this.busInfo = { bus_id: opts.bus_id, longitude: position.coords.longitude, latitude: position.coords.latitude };
                             _this.socket.emit("registerbus", _this.busInfo);
                         }, function (error) {
@@ -55,6 +55,10 @@ System.register(['@angular/core'], function(exports_1, context_1) {
                     else {
                         console.error(GEOLOCATION_ERRORS['errors.location.unsupportedBrowser']);
                     }
+                };
+                GeolocationService.prototype.disconnectService = function (opts) {
+                    this.socket = io(this.host);
+                    this.socket.emit("un-registerbus", opts.bus_id);
                 };
                 GeolocationService = __decorate([
                     core_1.Injectable(), 
