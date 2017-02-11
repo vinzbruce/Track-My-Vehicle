@@ -61,5 +61,8 @@
   "devDependencies": {
 
   },
-  "repository": {}
+  "repository": {
+  "type" : "git",
+  "url" : "https://git.heroku.com/vehicle-tracker.git"
+  }
 }
